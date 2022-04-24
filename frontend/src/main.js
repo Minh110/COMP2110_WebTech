@@ -1,5 +1,3 @@
-
 window.onload = () => {
-    document.getElementById('main').innerHTML = "<p>Bob will have some job's here</p>"
-}
-
+  document.getElementById("main").innerHTML = "<p>Bob's Job</p>";
+};
