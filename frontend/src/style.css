@@ -124,27 +124,6 @@ main {
   overflow: scroll;
 }
 
-.joblist {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  padding: 10px;
-  padding-top: 20px;
-}
-.job {
-  padding: 10px;
-  width: 320px;
-  margin: auto;
-  margin-top: 5px;
-  border: 5px solid palegoldenrod;
-  border-radius: 10px;
-}
-.jobtitle {
-  font-size: larger;
-  font-weight: bolder;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
 #content {
   color: black;
 }

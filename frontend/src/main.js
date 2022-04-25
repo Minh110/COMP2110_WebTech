@@ -1,4 +1,5 @@
 import { Router } from "./router.js";
+import { infoView, errorView, jobView, jobListView } from "./view.js";
 
 let about = {
   content:
@@ -7,31 +8,44 @@ let about = {
 
 let applicantHelp = { content: "Be sure to he honest in your application!" };
 
-const infoTemplate = Handlebars.compile(`
-    <div class=info>
-        <p>Name: {{name}}</p>
-        <p>Age: {{age}}</p>
-    </div>`);
+let allJobs = [];
 
-const aboutTemplate = Handlebars.compile(`
-    <div class=about>
-        <p>{{content}}</p>
-    </div>
-    `);
-
-function infoView(targetid, info) {
-  const list = aboutTemplate(info);
-  const target = document.getElementById(targetid);
-
-  target.innerHTML = list;
-}
-
-const errorView = () => {
-  const target = document.getElementById("content");
-  target.innerHTML = "<p> Page not found </p>";
+const loadData = () => {
+  fetch("/sample-data.json")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      allJobs = data.jobs;
+      redraw();
+    });
 };
 
 const route = new Router(errorView);
+
+const jobDetail = (id) => {
+  for (let i = 0; i < allJobs.length; i++) {
+    if (allJobs[i].id == id) {
+      return allJobs[i];
+    }
+  }
+  return null;
+};
+
+const getJobs = () => {
+  return allJobs;
+};
+
+route.get("/", () => {
+  const job = getJobs().slice(0, 10);
+  jobListView("content", job);
+});
+
+route.get("/jobs", (pathInfo) => {
+  const id = pathInfo.id;
+  const job = jobDetail(id);
+  jobView("content", job);
+});
 
 route.get("/about", () => {
   infoView("content", about);
@@ -58,7 +72,5 @@ function redraw() {
   route.route();
 }
 
-//window.onload = redraw;
+window.onload = loadData;
 window.onhashchange = redraw;
-
-window.onload = redraw;
