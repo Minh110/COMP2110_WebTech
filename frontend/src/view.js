@@ -18,15 +18,24 @@ export const errorView = () => {
 
 export const jobView = (id, job) => {
   const template = Handlebars.compile(`
-  <div class="job-description">
+  <div class="job-details">
     <h2>{{attributes.title}}</h2>
+    <h4>{{attributes.createdAt}}</h4>
+    <h4>{{attributes.updatedAt}}</h4>
+    <h4>{{attributes.publishedAt}}</h4>
+    <h4>{{attributes.createdAt}}</h4>
     <h3>{{attributes.location}}</h3>
     <h3>{{attributes.type}}</h3>
-    <h3 [innerHTML]="attributes.description"></h3> 
+    <h3><a href="/#!/companies/{{attributes.company.data.id}}">{{attributes.company.data.attributes.name}}</a></h3>
+    <div class="job-description"></div>
+
   </div>`);
 
+  //<p id="desc">{{attributes.description}}</p>
   const target = document.getElementById(id);
   target.innerHTML = template(job);
+  const desc = document.getElementsByClassName("job-description")[0];
+  desc.innerHTML = job.attributes.description;
 };
 
 export const jobListView = (id, jobArray) => {
@@ -42,14 +51,4 @@ export const jobListView = (id, jobArray) => {
 
   const target = document.getElementById(id);
   target.innerHTML = template({ array: jobArray });
-};
-
-export const homeView = (id) => {
-  const content = `
-  <h1>Job Web App</h1>
-  
-  <p>This web app shows a list of jobs.</p>
-  `;
-  const target = document.getElementById(id);
-  target.innerHTML = content;
 };

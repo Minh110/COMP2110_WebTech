@@ -60,7 +60,8 @@ function redraw() {
   var elements = document.getElementsByTagName("li");
   var curLink = window.location.href.split("#")[1];
   //console.log(elements);
-  for (var i = 0; i < document.getElementsByTagName("li").length; i++) {
+  //for (var i = 0; i < document.getElementsByTagName("li").length; i++) {
+  for (var i = 0; i < 3; i++) {
     var subElements = elements[i].children[0].href.split("#")[1];
     if (subElements === curLink) {
       active = i;
