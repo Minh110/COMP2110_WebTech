@@ -149,6 +149,10 @@ main {
   color: black;
 }
 
+.selected {
+  color: #df3e23;
+}
+
 .company,
 .location {
   display: inline-block;

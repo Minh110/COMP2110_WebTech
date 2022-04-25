@@ -15,7 +15,7 @@ const infoTemplate = Handlebars.compile(`
 
 const aboutTemplate = Handlebars.compile(`
     <div class=about>
-        <p>{{content}}}</p>
+        <p>{{content}}</p>
     </div>
     `);
 
@@ -42,6 +42,19 @@ route.get("/help", () => {
 });
 
 function redraw() {
+  var active = 0;
+  var elements = document.getElementsByTagName("li");
+  var curLink = window.location.href.split("#")[1];
+  //console.log(elements);
+  for (var i = 0; i < document.getElementsByTagName("li").length; i++) {
+    var subElements = elements[i].children[0].href.split("#")[1];
+    if (subElements === curLink) {
+      active = i;
+    } else {
+      elements[i].className = "";
+    }
+  }
+  elements[active].className = "selected";
   route.route();
 }
 
