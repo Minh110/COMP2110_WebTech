@@ -145,6 +145,10 @@ main {
   text-align: center;
 }
 
+#content {
+  color: black;
+}
+
 .company,
 .location {
   display: inline-block;
@@ -160,29 +164,6 @@ main {
   padding: 2px;
   border-radius: 10px;
   background-color: #55dde0;
-}
-#employer-feedback {
-  background-color: #f6ae2d;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-.testimonial {
-  padding: 10px;
-  background: #f26419;
-}
-
-#search-hints {
-  padding: 10px;
-  background-color: lightgoldenrodyellow;
-  overflow: scroll;
-}
-#search-hints h2 {
-  text-align: center;
-}
-
-#search-hints p {
-  text-align: center;
-  font-weight: bold;
 }
 
 #search-hints-terms,
@@ -201,12 +182,4 @@ main {
 
 .link-list a:hover {
   background-color: #f26419;
-}
-
-footer {
-  text-align: center;
-  font-size: 10px;
-  padding-top: 10px;
-  padding-bottom: 3px;
-  background-color: lightgoldenrodyellow;
 }
