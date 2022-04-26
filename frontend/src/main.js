@@ -1,5 +1,11 @@
 import { Router } from "./router.js";
-import { infoView, errorView, jobView, jobListView } from "./view.js";
+import {
+  infoView,
+  errorView,
+  companyView,
+  jobView,
+  jobListView,
+} from "./view.js";
 
 let about = {
   content:
@@ -36,6 +42,27 @@ const getJobs = () => {
   return allJobs;
 };
 
+const companyDetail = (id) => {
+  for (let i = 0; i < allJobs.length; i++) {
+    var detail = allJobs[i].attributes.company.data;
+    if (detail.id == id) {
+      return detail;
+    }
+  }
+  return null;
+};
+
+const companyJobs = (id) => {
+  let compJob = [];
+  for (let i = 0; i < allJobs.length; i++) {
+    var detail = allJobs[i].attributes.company.data;
+    if ((detail.id = id)) {
+      compJob.push(allJobs[i]);
+    }
+  }
+  return compJob;
+};
+
 route.get("/", () => {
   const job = getJobs().slice(0, 10);
   jobListView("content", job);
@@ -45,6 +72,13 @@ route.get("/jobs", (pathInfo) => {
   const id = pathInfo.id;
   const job = jobDetail(id);
   jobView("content", job);
+});
+
+route.get("/companies", (pathInfo) => {
+  const id = pathInfo.id;
+  const comp = companyDetail(id);
+  const compJob = companyJobs(id);
+  companyView("content", comp, compJob);
 });
 
 route.get("/about", () => {
@@ -59,8 +93,7 @@ function redraw() {
   var active = 0;
   var elements = document.getElementsByTagName("li");
   var curLink = window.location.href.split("#")[1];
-  //console.log(elements);
-  //for (var i = 0; i < document.getElementsByTagName("li").length; i++) {
+
   for (var i = 0; i < 3; i++) {
     var subElements = elements[i].children[0].href.split("#")[1];
     if (subElements === curLink) {
@@ -69,6 +102,7 @@ function redraw() {
       elements[i].className = "";
     }
   }
+
   elements[active].className = "selected";
   route.route();
 }
