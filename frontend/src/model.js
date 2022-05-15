@@ -1,3 +1,5 @@
+/* COMP 2110 - Quang Minh Pham - 45546339*/
+
 import { Auth } from "./auth.js";
 export { Model };
 import * as views from "./view.js";

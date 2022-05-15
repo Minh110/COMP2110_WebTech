@@ -1,3 +1,5 @@
+/* COMP 2110 - Quang Minh Pham - 45546339*/
+
 export const generalTemplate = Handlebars.compile(`
     <div class=about>
         <p>{{content}}</p>

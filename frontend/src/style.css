@@ -1,3 +1,5 @@
+/* COMP 2110 - Quang Minh Pham - 45546339*/
+
 html {
   font-family: Helvetica, sans-serif;
   height: 100%;
@@ -88,6 +90,13 @@ header {
   border-radius: 10px;
   padding: 7px;
   width: 250px;
+}
+
+#auth-input {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 7px;
+  width: 60px;
 }
 
 .main-menu {

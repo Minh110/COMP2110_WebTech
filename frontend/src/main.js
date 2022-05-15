@@ -1,15 +1,9 @@
-import { Router } from "./router.js";
-import {
-  infoView,
-  errorView,
-  companyView,
-  jobView,
-  jobListView,
-} from "./view.js";
+/* COMP 2110 - Quang Minh Pham - 45546339*/
 
+import { Router } from "./router.js";
 import * as views from "./view.js";
 import { Model } from "./model.js";
-//import { Auth } from "./auth.js";
+import { Auth } from "./auth.js";
 
 let about = {
   content:
@@ -64,8 +58,27 @@ function searchFormHandler() {
   };
 }
 
+function loginFormHandler() {
+  if (!Auth.getUser()) {
+    // install login handler
+    const loginform = document.getElementById("login-form");
+    loginform.onsubmit = (event) => {
+      event.preventDefault();
+      const username = loginform.elements["username"].value;
+      const password = loginform.elements["password"].value;
+      const authInfo = {
+        identifier: username,
+        password: password,
+      };
+      //send authInfo to backend for user authentication
+      Auth.login(authInfo);
+    };
+  }
+}
+
 const bindings = () => {
   searchFormHandler();
+  loginFormHandler();
 };
 
 export function redraw() {
@@ -87,5 +100,6 @@ export function redraw() {
   elements[active].className = "selected";
 }
 
+window.addEventListener("userLogin", redraw);
 window.onhashchange = redraw;
 window.onload = Model.loadData;
