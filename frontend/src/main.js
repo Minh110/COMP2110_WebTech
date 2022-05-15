@@ -7,6 +7,10 @@ import {
   jobListView,
 } from "./view.js";
 
+import * as views from "./view.js";
+import { Model } from "./model.js";
+//import { Auth } from "./auth.js";
+
 let about = {
   content:
     "Bob's Jobs is a revolution in career planning brought to you by Bob Bobalooba himself!",
@@ -14,82 +18,59 @@ let about = {
 
 let applicantHelp = { content: "Be sure to he honest in your application!" };
 
-let allJobs = [];
+//let Model.DATA.allJobs = [];
 
-const loadData = () => {
-  fetch("/sample-data.json")
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      allJobs = data.jobs;
-      redraw();
-    });
-};
-
-const route = new Router(errorView);
-
-const jobDetail = (id) => {
-  for (let i = 0; i < allJobs.length; i++) {
-    if (allJobs[i].id == id) {
-      return allJobs[i];
-    }
-  }
-  return null;
-};
-
-const getJobs = () => {
-  return allJobs;
-};
-
-const companyDetail = (id) => {
-  for (let i = 0; i < allJobs.length; i++) {
-    var detail = allJobs[i].attributes.company.data;
-    if (detail.id == id) {
-      return detail;
-    }
-  }
-  return null;
-};
-
-const companyJobs = (id) => {
-  let compJob = [];
-  for (let i = 0; i < allJobs.length; i++) {
-    var detail = allJobs[i].attributes.company.data;
-    if ((detail.id = id)) {
-      compJob.push(allJobs[i]);
-    }
-  }
-  return compJob;
-};
+const route = new Router(views.errorView);
 
 route.get("/", () => {
-  const job = getJobs().slice(0, 10);
-  jobListView("content", job);
+  const job = Model.getJobs().slice(0, 10);
+  views.jobListView("content", job);
 });
 
 route.get("/jobs", (pathInfo) => {
   const id = pathInfo.id;
-  const job = jobDetail(id);
-  jobView("content", job);
+  const job = Model.jobDetailAll(id);
+  views.jobView("content", job);
 });
 
 route.get("/companies", (pathInfo) => {
   const id = pathInfo.id;
-  const comp = companyDetail(id);
-  const compJob = companyJobs(id);
-  companyView("content", comp, compJob);
+  const comp = Model.companyDetail(id);
+  const compJob = Model.companyJobs(id);
+  views.companyView("content", comp, compJob);
 });
 
 route.get("/about", () => {
-  infoView("content", about);
+  views.infoView("content", about);
 });
 
 route.get("/help", () => {
-  infoView("content", applicantHelp);
+  views.infoView("content", applicantHelp);
 });
 
-function redraw() {
+route.get("/search", (pathInfo) => {
+  const text = pathInfo.id;
+  const job = Model.jobSearch(text);
+  views.jobSearchView("content", job);
+});
+
+function searchFormHandler() {
+  const searchform = document.getElementById("nav-main-search");
+  searchform.onsubmit = (event) => {
+    event.preventDefault();
+    const textInput = searchform.elements["search"].value;
+    location.href = "/#!/search/" + textInput;
+    Model.jobSearch(textInput);
+  };
+}
+
+const bindings = () => {
+  searchFormHandler();
+};
+
+export function redraw() {
+  route.route();
+  bindings();
   var active = 0;
   var elements = document.getElementsByTagName("li");
   var curLink = window.location.href.split("#")[1];
@@ -104,8 +85,7 @@ function redraw() {
   }
 
   elements[active].className = "selected";
-  route.route();
 }
 
-window.onload = loadData;
 window.onhashchange = redraw;
+window.onload = Model.loadData;

@@ -26,35 +26,44 @@
 
         <div class="header-search">
           <form
-            action="/search"
             role="search"
             class="search-form search-widget"
             id="nav-main-search"
           >
             <label for="main-q" class="visually-hidden">Search Jobs</label>
             <input
-              id="main-q"
+              id="search"
               type="search"
               class="search-input-field"
               name="q"
               placeholder="Site search..."
               value=""
             />
-            <input
-              type="submit"
-              class="search-button"
-              aria-label="Search"
-              value="Search"
-            />
+            <a href="/#!/search"
+              ><input
+                id="searchbutton"
+                type="submit"
+                class="search-button"
+                aria-label="Search"
+                value="Search"
+            /></a>
           </form>
         </div>
 
         <div class="header-auth">
-          <span>
-            <a href="#" id="login-link">Sign In</a>
-            or
-            <a href="#" id="register-link">Register</a>
-          </span>
+          <form id="login-form">
+            <label for="username"> Username: </label>
+            <input name="username" />
+            <label for="password"> Password: </label>
+            <input name="password" type="password" autocomplete="on" />
+            <input
+              id="loginbutton"
+              type="submit"
+              class="search-button"
+              aria-label="Search"
+              value="Log in"
+            />
+          </form>
         </div>
       </div>
     </header>
