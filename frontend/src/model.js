@@ -7,8 +7,8 @@ import { redraw } from "./main.js";
 
 const Model = {
   jobs_url: "http://localhost:1337/api/jobs",
-  companies_url: "http://localhost:1337/api/companies?populate=jobs",
-  jobs_url_date: "http://localhost:1337/api/jobs?sort[0]=publishedAt%3Adesc",
+  companies_url: "http://localhost:1337/api/companies?populate=jobs", //company url with relational attributes
+  jobs_url_date: "http://localhost:1337/api/jobs?sort[0]=publishedAt%3Adesc", //job url but with sorted dates
 
   // Model will hold the data stored in the model
 
@@ -17,14 +17,14 @@ const Model = {
     allCompanies: [],
   },
 
-  // single job data
+  // single job and company data, along with the job being searched (which containing the searching text)
   jobData: null,
   compData: null,
   searchedJob: [],
 
-  // fetch job data from backend
-
+  // fetch job and company data from backend
   loadData: () => {
+    //fetching job data
     fetch(Model.jobs_url_date)
       .then((response) => {
         return response.json();
@@ -36,6 +36,7 @@ const Model = {
         window.dispatchEvent(event);
         redraw();
       });
+    //fetching company data
     fetch(Model.companies_url)
       .then((response) => {
         return response.json();
@@ -54,7 +55,7 @@ const Model = {
     return Model.DATA.allJobs;
   },
 
-  // returns a job by id
+  // returns a job by id but no relational data
   jobDetail: (id) => {
     for (let i = 0; i < Model.DATA.allJobs.length; i++) {
       if (Model.DATA.allJobs[i].id == id) {
@@ -73,9 +74,7 @@ const Model = {
         return response.json();
       })
       .then((data) => {
-        // console.log("getUnit: .then unit before:", Model.unitData)
         Model.jobData = data.data[0];
-        // console.log("getUnit: .then unit after:", Model.unitData)
         views.jobView("content", Model.jobData);
         const event = new CustomEvent("modelUpdated");
         window.dispatchEvent(event);
@@ -83,6 +82,7 @@ const Model = {
   },
 
   jobSearch: (text) => {
+    //return jobs that contain the searching text
     let filter = "?populate=company&filters[description][$contains]=";
     let url_str = Model.jobs_url + filter + text;
     fetch(url_str)
@@ -90,9 +90,7 @@ const Model = {
         return response.json();
       })
       .then((data) => {
-        // console.log("getUnit: .then unit before:", Model.unitData)
         Model.searchedJob = data.data;
-        // console.log("getUnit: .then unit after:", Model.unitData)
         views.jobSearchView("content", Model.searchedJob);
         const event = new CustomEvent("modelUpdated");
         window.dispatchEvent(event);
@@ -100,6 +98,7 @@ const Model = {
   },
 
   companyDetail: (id) => {
+    //return the individual company details
     for (let i = 0; i < Model.DATA.allCompanies.length; i++) {
       if (Model.DATA.allCompanies[i].id == id) {
         return Model.DATA.allCompanies[i];
@@ -109,7 +108,7 @@ const Model = {
   },
 
   companyJobs: (id) => {
-    //let compJob = [];
+    //return published jobs of the queried company
     for (let i = 0; i < Model.DATA.allCompanies.length; i++) {
       if (Model.DATA.allCompanies[i].id == id) {
         return Model.DATA.allCompanies[i].attributes.jobs.data;
@@ -117,25 +116,4 @@ const Model = {
     }
     return null;
   },
-
-  companyDetailAll: (id) => {
-    let filter = "?populate=jobs&filters[id][$eq]=";
-    let url_str = Model.companies_url + filter + id;
-    fetch(url_str)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        // console.log("getUnit: .then unit before:", Model.unitData)
-        Model.compData = data.data[0];
-        // console.log("getUnit: .then unit after:", Model.unitData)
-        views.companyView("content", Model.compData);
-        const event = new CustomEvent("modelUpdated");
-        window.dispatchEvent(event);
-      });
-  },
-
-  // addUnit - add a new unit by submitting a request to the server API
-  //  formdata is a FormData object containing all fields in the unt object
-  // when the request is resolved, creates an "unitAdded" event
 };

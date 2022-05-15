@@ -9,6 +9,12 @@ html {
   background-color: aquamarine;
 }
 
+img {
+  height: 25%;
+  width: 25%;
+  padding: 5px;
+  object-fit: contain;
+}
 body {
   font-weight: 300;
   text-align: justify;
@@ -44,9 +50,11 @@ header {
 .header-auth {
   position: absolute;
   margin-top: 2%;
-  margin-right: 20px;
+  margin-right: 5px;
   top: 0;
   right: 0;
+  width: 36%;
+  display: inline-block;
 }
 #register-link,
 #login-link {
@@ -60,6 +68,10 @@ header {
 #login-link:hover,
 #register-link:hover {
   background-color: #55dde0;
+}
+
+#login-form {
+  display: inline-block;
 }
 
 .header-search {
@@ -90,13 +102,6 @@ header {
   border-radius: 10px;
   padding: 7px;
   width: 250px;
-}
-
-#auth-input {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 7px;
-  width: 60px;
 }
 
 .main-menu {
@@ -145,6 +150,12 @@ main {
 .location {
   display: inline-block;
   margin-bottom: 5px;
+}
+
+.company-details {
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
 }
 
 .location {

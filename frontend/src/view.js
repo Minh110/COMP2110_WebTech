@@ -14,6 +14,7 @@ export function infoView(targetid, info) {
 }
 
 export const errorView = () => {
+  // display Page not found message should the user type the wrong url
   const target = document.getElementById("content");
   target.innerHTML = "<p> Page not found </p>";
 };

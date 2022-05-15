@@ -3,7 +3,7 @@
 export { Auth };
 
 const Auth = {
-  userData: null,
+  userData: null, //contain the current user
 
   login: function (authInfo) {
     console.log("the authInfo is ", authInfo);
@@ -15,17 +15,20 @@ const Auth = {
       body: JSON.stringify(authInfo),
     })
       .then((response) => {
-        return response.json();
+        return response.json(); //handling if succeed (the user exists)
       })
       .then((data) => {
         let auth = document.getElementById("login-form");
+        //decide which login form to render
         if (data.data === null) {
+          //if the user does not exist, return invalid
           const template = Handlebars.compile(`
                 <p>Invalid Username or Password</p>
             `);
           const target = document.getElementsByClassName("header-auth")[0];
           target.innerHTML = template(template);
         } else {
+          //if the user exists, return the log out button
           auth.style.visibility = "hidden";
           const template = Handlebars.compile(`
                 <p>Logged in as bob</p>
@@ -37,15 +40,13 @@ const Auth = {
           const target = document.getElementsByClassName("header-auth")[0];
           target.innerHTML = template(template);
 
-          console.log("Well Done!");
-          console.log("the response data is ", data);
-          this.userData = data;
+          this.userData = data; //add the logged in user to the variable for later use
           let event = new CustomEvent("userLogin");
           window.dispatchEvent(event);
         }
       })
       .catch((error) => {
-        //if (error.response !== undefined) {
+        //handling unexpected error
         console.log("An error occurred:", error.response);
         //}
       });
