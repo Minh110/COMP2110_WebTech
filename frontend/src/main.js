@@ -76,9 +76,39 @@ function loginFormHandler() {
   }
 }
 
+function logoutFormHandler() {
+  if (Auth.getUser()) {
+    const logoutform = document.getElementById("logoutbutton");
+    if (logoutform) {
+      logoutform.onclick = (event) => {
+        event.preventDefault();
+        const template = Handlebars.compile(`
+            <form id="login-form">
+            <label for="username"> Username: </label>
+            <input name="username" />
+            <label for="password"> Password: </label>
+            <input name="password" type="password" autocomplete="on" />
+            <input
+              id="loginbutton"
+              type="submit"
+              class="search-button"
+              aria-label="Search"
+              value="Log in"
+            />
+            </form>
+            `);
+        const target = document.getElementsByClassName("header-auth")[0];
+        target.innerHTML = template(template);
+        Auth.userData = null;
+      };
+    }
+  }
+}
+
 const bindings = () => {
   searchFormHandler();
   loginFormHandler();
+  logoutFormHandler();
 };
 
 export function redraw() {

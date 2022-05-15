@@ -18,33 +18,30 @@ const Auth = {
         return response.json();
       })
       .then((data) => {
-        console.log("Well Done!");
-        console.log("the response data is ", data);
-        this.userData = data;
-        let event = new CustomEvent("userLogin");
-        window.dispatchEvent(event);
-
         let auth = document.getElementById("login-form");
-        if (!this.userData) {
+        if (data.data === null) {
           const template = Handlebars.compile(`
                 <p>Invalid Username or Password</p>
             `);
-          const target = document.getElementById("authentication");
+          const target = document.getElementsByClassName("header-auth")[0];
           target.innerHTML = template(template);
         } else {
           auth.style.visibility = "hidden";
           const template = Handlebars.compile(`
                 <p>Logged in as bob</p>
-                <input
+                <button
                     id="logoutbutton"
-                    type="submit"
-                    class="search-button"
-                    aria-label="Search"
-                    value="Log out"      
-                />
+                    class="search-button"     
+                > Log Out </button>
             `);
-          const target = document.getElementById("authentication");
+          const target = document.getElementsByClassName("header-auth")[0];
           target.innerHTML = template(template);
+
+          console.log("Well Done!");
+          console.log("the response data is ", data);
+          this.userData = data;
+          let event = new CustomEvent("userLogin");
+          window.dispatchEvent(event);
         }
       })
       .catch((error) => {
