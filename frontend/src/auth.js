@@ -1,4 +1,4 @@
-/* COMP 2110 - Quang Minh Pham - 45546339*/
+/* COMP 2110 - auth.js - Quang Minh Pham - 45546339*/
 
 export { Auth };
 

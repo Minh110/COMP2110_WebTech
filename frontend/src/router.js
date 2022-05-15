@@ -1,3 +1,4 @@
+/* COMP 2110 - router.js - Quang Minh Pham - 45546339*/
 export class Router {
   constructor(errorHandler) {
     this.routes = {};
